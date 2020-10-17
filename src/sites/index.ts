@@ -1,4 +1,4 @@
-export type SiteId = 'facebook' | 'twitter' | 'reddit' | 'hackernews' | 'linkedin' | 'youtube';
+export type SiteId = 'facebook' | 'workplace' | 'twitter' | 'reddit' | 'hackernews' | 'linkedin' | 'youtube';
 export const Sites: Record<SiteId, Site> = {
 	facebook: {
 		label: 'Facebook',
@@ -9,6 +9,23 @@ export const Sites: Record<SiteId, Site> = {
 			'https://www.facebook.com/*',
 			'http://web.facebook.com/*',
 			'https://web.facebook.com/*',
+		],
+	},
+	workplace: {
+		label: 'Workplace',
+		domain: 'workplace.com',
+		paths: ['/'],
+		paths_regexp: [
+			// Eradicate groups feed except if the path contains the string '/search/'
+			// which indicates the results of group search.
+			// https://stackoverflow.com/questions/406230/regular-expression-to-match-a-line-that-doesnt-contain-a-word
+			'^/groups/((?!search/).)*$',
+		],
+		origins: [
+			'http://fb.workplace.com/*',
+			'https://fb.workplace.com/*',
+			'http://fb.prod.workplace.com/*',
+			'https://fb.prod.workplace.com/*',
 		],
 	},
 	twitter: {
@@ -61,4 +78,7 @@ export type Site = {
 
 	// Will only be enabled for these paths
 	paths: string[];
+
+	// Optional property. Will be enabled for paths matching these regexps.
+	paths_regexp?: string[];
 };

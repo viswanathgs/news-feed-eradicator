@@ -8,6 +8,7 @@ import { setupRouteChange } from './lib/route-change';
 
 import * as FbClassic from './sites/fb-classic';
 import * as Fb2020 from './sites/fb-2020';
+import * as Workplace from './sites/workplace';
 import * as Twitter from './sites/twitter';
 import * as Reddit from './sites/reddit';
 import * as HackerNews from './sites/hackernews';
@@ -31,6 +32,8 @@ export function eradicate(store: Store) {
 		YouTube.eradicate(store);
 	} else if (FbClassic.checkSite()) {
 		FbClassic.eradicate(store);
+	} else if (Workplace.checkSite()) {
+		Workplace.eradicate(store);
 	} else  {
 		Fb2020.eradicate(store);
   }
