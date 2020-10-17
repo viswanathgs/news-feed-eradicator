@@ -15,6 +15,19 @@ export function isEnabled(state: SettingsState): boolean {
 	return enabledStatus(state).type === 'enabled';
 }
 
+export function isPathEnabled(site: Site, path: string): boolean {
+	if (site.allowlist_url_regexp &&
+	    site.allowlist_url_regexp.some(regexp => RegExp(regexp).test(window.location.href))) {
+		return false;
+	}
+
+	if (site.paths.indexOf('_all_') !== -1 || site.paths.indexOf(path) !== -1) {
+		return true;
+	}
+
+	return false;
+}
+
 export function enabledStatus(state: SettingsState): EnabledStatus {
 	const siteStatuses = getSiteStatus(state);
 	for (let siteId of Object.keys(Sites)) {
@@ -22,7 +35,7 @@ export function enabledStatus(state: SettingsState): EnabledStatus {
 		const siteStatus: SiteStatus = siteStatuses[siteId];
 		if (site.domain.find(domain => window.location.host.includes(domain)) != null) {
 			// Always disabled if the path doesn't match
-			if (site.paths.indexOf(window.location.pathname) === -1) {
+			if (!isPathEnabled(site, window.location.pathname)) {
 				return { type: 'disabled' };
 			}
 

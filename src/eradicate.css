@@ -189,7 +189,8 @@ div.ego_column,
 #stories_pagelet_rhc,
 #fb_stories_card_root,
 #pagelet_gaming_destination_rhc,
-#pagelet_canvas_nav_content {
+#pagelet_canvas_nav_content,
+div[role='complementary'] {
 	opacity: 0 !important;
 	pointer-events: none !important;
 }

@@ -5,6 +5,7 @@ import githubCss from './github.str.css';
 
 export type SiteId =
 	| 'facebook'
+	| 'workplace'
 	| 'twitter'
 	| 'reddit'
 	| 'hackernews'
@@ -30,6 +31,28 @@ export const Sites: Record<SiteId, Site> = {
 			'https://www.facebook.com/*',
 			'http://web.facebook.com/*',
 			'https://web.facebook.com/*',
+		],
+	},
+	workplace: {
+		label: 'Workplace',
+		domain: ['workplace.com'],
+		paths: ['_all_'],
+		allowlist_url_regexp: [
+			// Do not eradicate feed if the url contains the following strings'/search/'
+			// '/search/' - results from search query
+			// 'notif_id=' - clicking on a post from notification
+			// 'permalink' - link to a specific post
+			// '/posts/' - link to specific post in a group
+			'^.*/search/.*$',
+			'^.*notif_id=.*$',
+			'^.*permalink.*$',
+			'^.*/posts/.*$',
+		],
+		origins: [
+			'http://fb.workplace.com/*',
+			'https://fb.workplace.com/*',
+			'http://fb.prod.workplace.com/*',
+			'https://fb.prod.workplace.com/*',
 		],
 	},
 	instagram: {
@@ -113,4 +136,7 @@ export type Site = {
 	paths: string[];
 
 	css?: string;
+
+	// Optional property. For regexps present in this list, do not eradicate feed overriding `paths`.
+	allowlist_url_regexp?: string[];
 };
